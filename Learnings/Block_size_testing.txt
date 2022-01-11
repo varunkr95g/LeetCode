@@ -1,0 +1,142 @@
+500 MB file -> block size 128 MB
+
+Node 1 -> B1 -> 128 MB
+B3-> 128 MB
+B4 -> 116MB
+
+Total -> 372 MB
+
+NODE 2 -> B2 -> 128 MB
+B1-> 128 MB
+B4-> 116MB
+
+Total -> 372 MB
+
+
+NODE 3 -> B3 -> 128 MB
+B1-> 128 MB
+B2-> 128 MB
+
+Total -> 384 MB
+
+
+NODE 4-> B4 -> 116 MB
+B2-> 128 MB
+B3-> 128 MB
+
+Total -> 372 MB
+
+Total Memory for a 500 MB file -> 1500 MB
+
+
+500 MB file -> block size 256 MB
+
+Node 1-> B1 -> 256 MB
+
+Total -> 256 MB
+
+NODE 2-> B2 -> 256 MB
+B1 -> 256 MB
+
+TOTAL -> 512 MB
+
+NODE 3
+B1-> 256 MB
+B2 -> 256 MB
+
+TOTAL -> 512 MB
+
+NODE 4
+B2-> 256 MB
+
+TOTAL -> 256 MB
+
+Total Memory for a 500 MB file ->1536 MB
+
+
+
+1 GB FILE -> BLOCK SIZE 128 MB
+
+Node 1 -> B1 -> 128 MB
+B2-> 128 MB
+B5-> 128 MB
+B6-> 128 MB
+B7-> 128 MB
+B8-> 104 MB
+
+TOTAL NODE 1-> 744 MB
+
+NODE 2 -> B3-> 128 MB
+B4-> 128 MB
+B1-> 128 MB
+B2-> 128 MB
+B7-> 128 MB
+B8-> 104 MB
+
+TOTAL NODE 2-> 744 MB
+
+NODE 3 -> B5-> 128 MB
+B6-> 128 MB
+B1-> 128 MB
+B2-> 128 MB
+B3-> 128 MB
+
+TOTAL NODE 3-> 640 MB
+
+NODE 4 -> B7-> 128 MB
+B8-> 104 MB
+B3-> 128 MB
+B5-> 128 MB
+B6-> 128 MB
+
+TOTAL NODE 4-> 640 MB
+
+TOTAL -> 2768 MB
+
+
+
+1 GB FILE -> BLOCK SIZE 256 MB
+
+Node 1-> B1 -> 256 MB
+B3-> 256 MB
+B4-> 256 MB
+
+
+
+Node 2-> B2 -> 256 MB
+B1 -> 256 MB
+B4-> 256 MB
+
+
+NODE 3-> B3 -> 256 MB
+B1-> 256 MB
+B2-> 256 MB
+
+
+NODE 4-> B4 -> 256 MB 
+B2-> 256 MB
+B3-> 256 MB
+
+
+513 MB FILE -> 128 MB BLOCK SIZE
+
+Node 1-> B1-> 128 MB
+B5-> 1 MB
+B3-> 128 MB
+
+
+
+
+NODE 2-> B2-> 128 MB
+B1-> 128 MB
+
+
+
+NODE 3-> B3-> 128 MB
+B1-> 128 MB
+B2-> 128 MB
+
+
+NODE 4-> B4-> 128 MB
+B2-> 128 MB
+B3-> 128 MB
