@@ -1,0 +1,81 @@
+1. CASE WHEN. Shows up all the time.
+2. Self joins. Common in product. -- done
+3. DISTINCT and GROUP BY
+4. Left vs outer joins.
+5. UNION. Rarely discussed but frequent.
+6. SUM and COUNT
+7. Date-time manipulation
+8. String formatting, substring
+9. Window functions like rank and row
+10. Subqueries
+11. HAVING vs WHERE
+12. In some cases LAG and LEAD
+13. Understanding indexing
+14. Running totals
+15. MAX and MIN
+
+
+Self join with employee and manager data:
+
+			BBB
+			AAA
+			CCC
+			DDD
+			EEE
+
+Do check an example with self join.
+
+
+
+Case 1 Hardware - 6 Nodes, and Each node 16 cores, 64 GB RAM
+
+No. of Cores -> 5
+No. of executors -> 18
+Executor memory -> 20
+
+No. of Cores is the no. of concurrent tasks. Always have this No. as 5.
+So, 5 Cores per executor. 
+
+5 * 3 = 15, so with 3 Executors per node, we'll consume 15 cores.
+So, total No. of executors should be 6 ( No. of nodes) * 3 = 18.
+
+Each node has 64 GB; 3 Executors per node, so each node should take 21 GB. But give 1GB
+for other Hadoop processes, so, executor memory = 20 GB.
+
+
+Case 2 Hardware : Same 6 Node, 32 Cores, 64 GB
+ 
+No. of Cores -> 5
+No. of executors ->  35
+Executor memory ->  10G ( Can subtract 1)
+
+No. of Cores is 5 ( always make it 5)
+
+32/5 = 6. So, no. of executors per Node =6. Total Nodes =6. So, No. of executors overall is 36.
+Can subtract 1 , No. of executors = 35.
+
+
+Executor memory = 63/6 = 10 GB
+
+
+Case 3 Hardware:
+10 Nodes
+16 cores per Node
+64GB RAM per Node
+
+No. of Cores -> 5
+No. of executors -> 29
+Executor memory -> 20 GB
+
+No. of Executors per Node 16/5 = 3. 10 Nodes exist, no. of executors = 10 * 3 = 30
+
+Executor memory = 64/3 = 20 GB
+
+
+
+
+
+
+
+
+
