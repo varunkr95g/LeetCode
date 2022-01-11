@@ -1,0 +1,221 @@
+Points to remember:
+
+BigRed cluster size: 928 nodes,28711 containers, 43948 VCores, 369.92 TB memory
+
+My queue capacity: 149 containers ( Figure out container and node thing),
+				   440 VCores, 3.5 TB memory 
+				   
+BigRed3 cluster size 				   
+
+
+( If possible, just check whether BR3 and BR2 have separate nodes)
+
+Hive version in BigRed ( Hadoop ): Hive 1.2.1
+
+BigRed -> Hadoop version -> Hadoop 2.7.3
+
+BigRed3 -> Hadoop version ->Hadoop 3.2
+
+Hive version in BigRed3 ( Hadoop 3): Hive 3.1.1
+
+Size of TOT_TI_SCHD -> 363.3 GB
+		EMP_TOT_TMSH -> 119.7 GB
+		TOT_TI_SCHD_POST -> 270 GB
+		EMP_AVLB_PTRN -> 197.4 GB
+
+Overcoming merge/update issues,
+
+Initially in the Hive 1.2.1, merge/update was disabled. 
+It was enabled in Hive 3.1.1, but we were advised against using it because of the compaction issues faced 
+by the platform team.
+
+Hence, I defined the below workaround to fix it,
+
+id | name | age
+1  | abc  | 23
+2  | xyz  | 34
+3  | pqr  | 45
+
+id | name | age
+1  | lmn  | 56
+4  | efg  | 37
+
+Merge is nothing but, update the table with new values and insert if the record doesn't exist.
+
+This is achieved through full outer join, & coalesce with priority being given to the delta table.
+I also built a common function for this in spark and it's used throughout the team.
+
+
+For update too, a similar approach os followed, instead of a full outer join, 
+a left outer join is performed. Wherein only the new values are updated.
+
+Sqoop Q/A's
+
+What I know about sqoop:
+
+sqoop import: Connect to Oracle
+query
+split by
+mappers
+fecth size
+boundary query if necessary
+
+boundary query isn't that useful while using a free form sql.
+The min and max is calculated on the split by key and based on these values,
+the data is split 
+
+I have used the sqoop export to export data from hadoop to Teradata too as our reports were built out of TD.
+We no longer do that.
+
+YARN architecture:
+
+It plans the usage of cluster resources as well as tranformations of the data. 
+
+Resource Manager is the core component of YARN, which is responsible for management of resources including CPUs, RAM
+and other resources throughout the cluster, 
+
+Application Manager is responsible for scheduling the applications throughout the life cycle.
+
+Resource Manager has 2 components:
+
+1. The Scheduler:
+Called the YarnScheduler, which allows for different policies for managing constraints like
+capacity, fairness, 
+
+2. Application Manager maintains a list of submitted applications, checks whether the required resources are 
+available for the particular application and forwards it to the scheduler else rejects it.
+
+Node Manager 
+
+
+Basics of spark architecture:
+
+1. The client submits the application code, the driver converts the user code which contains transformations 
+and actions into a logical DAG. 
+2. Driver converts the DAG into a physical execution plan with many stages. After that, it converts 
+it into physical execution units called tasks.
+3. Now the driver talks to the cluster manager and negotiates resources, Cluster manager launches the executors 
+in worker nodes on behalf of the driver. 
+4. Driver then monitors the set of executors 
+
+
+
+YARN manages the resources on the cluster.    
+
+
+
+How to decide on number of cores per executor, executor memory, number of executors 
+
+Case 1 Hardware - 6 Nodes, and Each node 16 cores, 64 GB RAM
+
+Always the number of cores on executor =5 
+
+Number of executors per node = ( 16 -1)/5 =3
+=> the tot number of executors =6*3 =  ( 18 -1) =17
+
+
+63 GB RAM available per node. memory for each executor is 63/3 =21.
+
+overhead= max(384 MB,0.07*21 = 1.47 GB)
+
+So, executor memory = (21-1.47 )  GB = 19 GB.
+
+
+
+Case 2 Hardware : Same 6 Node, 32 Cores, 64 GB
+
+No. of core per executor = 5
+
+No. of executors ( 32 /5 ~ 6) -> 6 executors per node = 6*6= 36 executors for the cluster
+
+Executor memory :
+
+63 GB RAM available per node. memory for each executor is 63/6 ~ (10 -1)= 9 .
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Case 1 Hardware - 6 Nodes, and Each node 16 cores, 64 GB RAM
+
+1 executor - 5 cores.
+each node -> 3 executors; 6 nodes -> 18 executors - 1 executor =  17 executors.
+
+executor memory = (64-3)/3 ~ 20 GB -> executor memory.
+
+
+Case 2 Hardware : Same 6 Node, 32 Cores, 64 GB
+
+1 executor - 5 cores.
+each node-> 32 cores; no.of executors per node = 6
+6 nodes-> 6*6 - 1 = 35 executors.
+Executor memory= 64/6 ~ 10 GB -1 GB = 9 GB executor memory.
+
+
+
+
+
+
+		
+
