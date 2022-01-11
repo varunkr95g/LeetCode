@@ -1,0 +1,577 @@
+order by:
+
+It uses a reducer at the end, hence in the strict mode limit is necessary.
+As if there are too many records, the ordering can take a very long time.
+
+Difference b/w order by and sort by:
+
+sort by sorts the data per reducer, so if there's more than 1 reducer involved,
+sort by may partially sort the data. 
+
+Distribute by:
+
+All rows with the same Distribute By columns will go to the same reducer
+
+free-form SQL:
+
+Custom queries ( I came across this while looking at sqoop functionality. )
+
+Read on Hadoop Yarn archi
+Read on Hadoop3 archi
+
+
+===============
+
+Partitioning V/S Bucketing:
+
+Similarity -> divide the data into multiple sub-parts and only end up scanning a part of data. Data scan is less.
+
+Differences:
+
+1. each partition is a folder and each bucket is a file.
+2. partitioning should be done for columns with low cardinality ( less number of unique values.). 
+3. No. of partitions will be equal to the no. of unique values in that column.
+4. Buckets is a fixed value which should be mentioned up-front.
+5. Bucketing is for columns with high cardinality.
+6. Partitioning is logic based.   
+
+
+
+Bucketing:
+
+https://medium.com/@mcamara89/bucketing-in-hive-querying-from-a-particular-bucket-488ecf6959be
+
+1. When buckets are created they appear in HDFS as files, unlike partitions which show up as directories
+
+2. Clustered by column needs to be a primary index to ensure equi-distribution of data
+
+Partitioning:
+
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+Creates sub-directories, for example:
+
+/user/hive/warehouse/hre_sec_work.db/emp_tot_tmsh/rec_for_d=2020-01-01
+/user/hive/warehouse/hre_sec_work.db/emp_tot_tmsh/rec_for_d=2020-01-02
+/user/hive/warehouse/hre_sec_work.db/emp_tot_tmsh/rec_for_d=2020-01-03
+
+Tez as an execution engine:
+
+https://towardsdatascience.com/apache-hive-optimization-techniques-1-ce55331dbf5e
+
+Map Reduce works as below:
+
+1. The mapper function reads the data and processes it into key-value pairs,which is stored on the local disk.
+These key-value pairs grouped on the key are sent to the reducers.
+2. On nodes where reducers are to be run, data is received and is saved on the local disk and 
+it waits for data from all the mappers to arrive.Then the entire set of values for the key is read
+into a single reducer , processed & further writes the output which is then replicated.
+
+There is a lot of unnecessary read/write overheads.
+
+Tez optimizes it by not breaking a hive query into multiple MapReduce jobs.
+
+1. Tez skips the multiple DFS write by the reducer and piping the output of a reducer 
+directly in the subsequent mapper as input.
+2. Cascading a series of reducers without intervening mapper steps.
+3. Re-use of containers.
+
+Using ORC format ( Optimized Row Columnar )
+
+1. Achieves higher level of compression.
+2. It can skip scanning an entire range of the block, using the light weight indexes stored
+within the file.
+3. It can skip the decompression of rows if irrelevant to the the query.
+
+The ORC format file consists of tabular data that is written in "stripes" . In the stripes 
+the columns are compressed separately, only those columns which are needed are decompressed.
+
+The min/max range for the row data within the stripe is stored, if the query is wanting data not in this range,
+the stripe will not be decompressed thus leading to optimization.
+
+Vectorization:
+
+Vectorization optimizes the query execution by processing a block of 1024 rows at a time,
+inside which each row is saved as a vector. Arithmetic and comparison operators are done very quickly.
+
+set hive.vectorized.execution.enabled = true;
+
+Map Join: keeps the small table in memory of all the mappers, and the big table is streamed
+over it in the mapper.
+
+set hive.auto.convert.join=true;
+
+Bucket Map Join: 
+
+Works best when the number of buckets in one table is a multiple of the other table.
+
+set hive.optimize.bucketmapjoin = true;
+
+Complex data types in hive:
+
+Array, Struct, map
+
+Struct -> can have multiple things like first_name, last_name, 
+
+What we do is we explode into Lateral view and then select
+
+name of struct(identity). col_name
+
+array-> selection will be name_of_array.
+
+
+CREATE TABLE Products
+(id INT, ProductName STRING, ProductColorOptions ARRAY<STRING>);
+
+1 Watches [“Red”,”Green”]
+
+2 Clothes [“Blue”,”Green”]
+
+3 Books [“Blue”,”Green”,”Red”]
+
+SELECT p.id,p.productname,colors.colorselection FROM default.products P
+LATERAL VIEW EXPLODE(p.productcoloroptions) colors as colorselection;
+
+to do the flattening in spark, I use:
+FlattenFunctions.flattenDataframe(UnFlattenedDataFrame)
+
+
+executor-memory is the heap size. The executor memory is basically a measure on how much memory
+of the worker node will the application utilize
+
+
+Spark optimizations:
+
+1. persist() -> assume a filtered DF is used multiple times in a code. Since, spark evaluation is lazy,
+it will be calculated multiple times instead of once, if we use the persist(), the filtered DF is
+computed once and then it's persisted in the memory.
+
+Always persist RDDs/ DFs that are expensive to re-calculate.
+
+2. Shuffle partition: The default partition is 200 for a DF in spark, I might decrease this if
+I'm working with a smaller DF, increase it if working with a bigger dataframe.
+
+3. Use DataFrames instead of RDDs. DataFrames with Catalyst optimizers ensure the processing 
+activities run faster
+
+4. coalesce () V/S repartition() -> Use coalesce if you want to reduce the number of partitions.
+It's a less expensive process.
+
+Calling groupBy(), union(), join() and similar functions on DataFrame results in shuffling data
+between multiple executors and even machines and finally repartitions data into 200 partitions
+by default. Spark default defines shuffling partition to 200 using
+spark.sql.shuffle.partitions configuration.
+
+5. Reduce expensive shuffle operations:
+
+Avoid join(), groupBy(). Also, default partitions are 200.  
+
+   
+ORC V/S PARQUET file formats:
+
+Similarity : both are column based file formats.
+
+Differences:
+ORC - best suited for hive
+PARQUET - best suited for spark
+
+In terms of storage ORC takes less storage than PARQUET.
+
+for nested data, parquet is the best fit
+
+searching will be faster with ORC because it has in-built indexing.
+
+in terms of compatibility with other platforms, parquet is better than ORC.
+
+
+Avro V/S PARQUET file formats:
+
+Avro is row based whereas Parquet is column based.
+
+Avro provides faster writes but slower reads
+Parquet offers faster reads but slower writes.
+
+Parquet is better for analytical querying.
+
+
+Row based V/S column based file formats.
+
+
+Row based:
+
+1. data on the disk is stored row-by-row. Since it's stored row-by-row, it's very easy to write into it. Read is
+ inefficient because to get a subset of columns, entire data has to be read. compression is difficult
+ as subset of data consists of different file formats.
+ 
+ 
+ Column based:
+ 
+ Data is stored column wise. Makes read very efficient as only a certain subsets of column can be read
+ instead of scanning through all the records. Writes are inefficient.
+
+
+
+RDD : Resilient Distributed Dataset.
+It's resilient i.e. Fault tolerant. A lineage is maintained because of which an RDD can be recreated.
+In memory data structure, distributed over multiple machines. 
+
+Dataframe: 
+1. easier to connect to hive.
+2. has columns and gives a closer relation to the table
+3. automatically optimize the execution plan.
+
+catalyst optimizer -> automatically finds out the most efficient plan to execute the data operations.
+
+from table t1
+join table t2
+where t2.id>50000
+
+So, the catalyst optimizer instead of doing the join first, it'll push the filter first
+and then join on the remaining data.
+
+{ This is called predicate pushdown.}
+
+Column pruning
+
+Projecting to ensure only those columns which are required are selected instead of all the columns.
+
+
+Big Data basics:
+
+IBM categorises it as having 3 Vs
+1. Volume
+2. Variety 
+3. Velocity - speed at which incoming data is arriving.
+4. Veracity - nature of data when it's not clean. ( NULLs ). Data needs pre-processing.
+
+
+
+HDFS architecture:
+
+Heart Beat:
+
+Each Data node send heart beat to name node every 3 seconds.
+IF a name node doesn't receive 10 consecutive heart beats, it assumes data node is dead.
+
+Then name node marks the data node for deletion i.e remove that entry from it's metadata.
+Also, since the replication factor has become <3. IT'll create new copies to maintain the same.
+
+Name node failure is the most the critical one to handle.
+
+2 name nodes present in hadoop 2.x
+1. Active NN
+2. Passive NN ( Stand by NN)
+
+There's a secondary NN also present which takes periodic updates from the active NN.
+
+MapReduce:
+
+Processing of data in a distributed manner.
+
+2 phases:
+1. Map
+2. Reduce
+
+Map and reduce work on Key, Value Pairs.
+
+both input and output from map and reduce are key value pairs.
+
+None of the traditional  programming langs don't work because they all work on a single machine
+This works on a distributed network of nodes.
+
+Hadoop works on the principle of data locality.
+The code goes to the data. Data is not coming to the code.
+
+Assume there's a 4 blocks to the file. A program is run on this cluster. This program goes to all the 4 blocks.
+When the process is running, it's called a mapper process.
+
+A map is a piece of code running on each block parallelly.
+
+maps give parallelism.
+
+Now, all the outputs of the 4 mappers are sent to another node and the program will again run on this node.
+And that process is called reduce process. ( used for aggregation.)
+
+If you take the classic record count example.
+All the individual lines get a dummy key assigned to them so that mapper can understand and work on it.
+This process is done by Record Reader.
+
+Movement of data between mapper node to reducer node is called shuffling.  
+
+
+spark:
+General purpose
+In Memory
+Compute engine.
+
+Spark in memory concepts:
+
+In MR, each mapper will read from HDFS and write to HDFS after each stage.
+So, if x MRs are present, then there will be 2x disk IO's which makes it very slow.
+
+Let's assume that there's a chain of 5 MR jobs
+
+MR1		MR2		MR3		MR4		MR5
+
+
+			HDFS
+
+
+At each step, a MR job reads from the HDFS and writes back to HDFS. That means the no. of disk
+I/Os are 2X where X is the number of MR stages. 			
+
+In spark, the reading of data happens once and all the processing happens in-memory
+and the final write is back to HDFS.
+So, only 2 IO's take place which makes is very fast.
+ 
+
+
+Client mode: Driver is in the local machine -> preferable when debugging/testing but not in PROD
+
+Cluster mode: Driver is in the cluster. No dependency on the local system
+
+
+=========
+repartition V/S coalesce
+
+The repartition algorithm does a full shuffle and creates new partitions with data that's distributed evenly.
+
+coalesce uses existing partitions to minimize the amount of data that's shuffled. 
+repartition creates new partitions and does a full shuffle.
+ coalesce results in partitions with different amounts of data
+(sometimes partitions that have much different sizes) and repartition results in roughly equal sized partitions.
+
+repartition can result in increase or decrease in the number of partitions whereas coalesce will result in 
+decrease of number of partitions.
+
+
+
+
+=======
+cache() V/S persist
+
+cache() is a special case of persist where default storage is MEMORY_ONLY
+
+For RDD cache() default storage level is ‘MEMORY_ONLY‘ but, for DataFrame and Dataset, default is ‘MEMORY_AND_DISK‘
+
+This is because if the DF is big enough and there's not enough space in-memory to store it, some partitions
+would not be saved and they'll have to re-computed when the DF is referred. So, this makes it expensive.
+Hence MEMORY_AND_DISK is used for DF and dataset.
+
+In MEMORY_AND_DISK additional data will be stored on the disk and there'll be no re-computation required.
+
+ 
+
+But Persist() We can save the intermediate results in 5 storage levels.
+
+MEMORY_ONLY
+MEMORY_AND_DISK
+MEMORY_ONLY_SER
+MEMORY_AND_DISK_SER
+DISK_ONLY
+
+MEMORY_AND_DISK is the default.
+
+Erasure Encoding:
+
+The main drawback with Hadoop 2 is the replication factor of 3 which causes an unnecessary storage overhead.
+To mitigate this erasure encoding is used which will ensure that the data can be recovered with 
+much less storage overhead. For example, the simplest encoding method is the XOR.
+
+Split the file into 2 blocks A1, A2. Create the parity block as Ap= A1 XOR A2.
+
+IF A1 fails, it can be recovered via the parity block and A2.
+
+This results in 1 extra block, instead of 4 blocks and total blocks is 3 as opposed to 6 resulting 
+in 50% save of storage overhead.
+
+The drawback is that it tolerates a single failure, if both A1 and A2 blocks go down, there's no way to recover 
+using only AP block.
+
+To overcome this multiple parity blocks are generated and a complex encoding process is followed.
+It's called Reed-Solomon process.
+
+
+=====
+Difference between Lineage and DAG in spark
+
+Lineage- > set of steps required to re-create an RDD incase of any node/machine failure.
+Lineage is a logical plan.
+
+
+======
+
+Difference b/w RDD & Dataframe:
+
+1. if you're reading a .csv file into RDD, first you'll have to use sc.textFile() and read the csv file
+and then split based on the ",". Whereas in DF, reading a .csv file is equivalent to calling a 
+function and getting the job done.
+
+
+========
+
+reduceByKey   V/S groupByKey
+
+groupByKey shuffles the entire data over all partitions.
+reduceByKey does the reduce operation within a partition. 
+Then, the output of that partition is shuffled over the network.
+
+
+Input
+
+Parti 1			Parti 2			Parti 3
+(A,1)			(A,1)			(A,1)
+(B,1)			(A,1)			(A,1)
+				(B,1)			(A,1)
+				(B,1)			(B,1)
+								(B,1)
+
+								
+groupByKey:
+
+(A,1)
+(A,1)
+(A,1) 	-> (A,6)
+(A,1)
+(A,1)
+(A,1)
+
+(B,1)
+(B,1)
+(B,1)	-> (B,5)
+(B,1)
+(B,1)
+
+
+reduceByKey:
+
+(A,1)		(A,1)				
+		->
+(B,1)		(B,1)
+
+									(A,1)
+(A,1)								(A,2)	-> (A,6)
+(A,1)		(A,2)					(A,3)	
+		->
+(B,1)										
+(B,1)		(B,2)
+
+
+(A,1)								(B,1)	
+(A,1)								(B,2)	-> (B,5)
+(A,1)		(A,3)					(B,2)
+		->
+(B,1)
+(B,1)		(B,2)
+
+
+
+========================
+
+How do you read from Kafka load it into a DF ?
+
+Design 
+
+Kafka topic  --------------> Files 	
+( source )		Ingestion	
+
+Ingestion -> spark-submit command with parameters passed.
+
+
+How are the files consumed:
+
+1. Open a spark-shell
+
+imports....
+
+2. val df=spark.read.json("/path location") ( Read from the external loc)
+
+df.printSchema()
+
+3. val Flattendf=Flattenfunctions.flatten(df) ( Flatten if necessary)
+
+Flattendf.printSchema()
+
+4. Flattendf.write.format("orc").save("/fileloc") ( Save as orc.)
+
+
+But How are files consumed on a daily basis
+
+1. create a sparksession.
+
+2. explode the input:
+	
+	val df=sparksession.read.json("/path location")
+	Flattendf=Flattenfunctions.flatten(df) ( Flatten if necessary)
+	
+	Basic checks, NULL check, dup check.
+	
+3. 	Transformations in  a separate func.
+
+	join syntax
+	
+	val joinedDf=df1.join(df2, col("df1.c1")===col("df2.col1")," left outer").filter(col("df1.c1")===lit("val1"))
+	
+
+4. Write back to hive table:
+	a. use HWC (Hive Warehouse Connector)	
+	b. 2 Step process.
+		joinedDf.write.format("orc").save(/fileloc)
+		insert overwrite 
+		
+
+=============================================
+
+/temp/hive/table/dept1
+/temp/hive/table/dept2
+/temp/hive/table/dept3
+
+create external table db.tbl (
+
+id bigint,
+name string,
+)
+partitioned by (dept string)
+
+stored as textfile
+location "/temp/hive/table" 		
+
+alter table db.tbl add partition (dept=dept1) location '/temp/hive/table/dept1'		
+alter table db.tbl add partition (dept=dept1) location '/temp/hive/table/dept2'
+alter table db.tbl add partition (dept=dept1) location '/temp/hive/table/dept3'
+		
+
+	
+	
+==============================================
+
+type safety in spark
+
+dataframe V/S dataset:
+
+
+
+
+
+
+Chari explanation in the link:
+https://targetonline.sharepoint.com/sites/DataSciencesDevelopment/SitePages/Spark,-Scala-and-Kafka-Learning-Program(1).aspx
+
+07:20 -> important part begins
+
+
+	
+	 
+
+
+
+
+
+
+
+
+
+
+    
+ 
