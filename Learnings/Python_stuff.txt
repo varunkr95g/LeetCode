@@ -1,0 +1,56 @@
+SQL, Data Warehousing , Data processing/ETL
+
+
+
+2013-10-01  4             
+2013-10-02  3             
+2013-10-03  3
+
+             
+
+difference between lists and string
+
+lista=listb.sort()
+
+won't work.
+
+you have to perform listb.sort()
+and loop through and assign the elements.
+
+but str_lower=str.lower() will work.
+
+This is because lists are mutable. 
+and strings are immutable.
+
+Mutable means object can be changed after it's created. 
+for example, list
+
+String is immutable -> object can;t be changed after it's creation.
+example, string
+
+
+Id	FullName			Age
+1	Bart Thompson		43
+2	Catherine Anderson	44
+3	John Burkin			35
+4	Nicole McGregor		29
+
+select start.id,start.FullName,start.age,paired.Id, paired.FullName
+from Colleagues start, Colleagues paired
+where start.Id<>paired.Id
+
+
+select Human.Id,Human.FirstName, Human.Age, Ancestor.Id,Ancestor.FirstName,Ancestor.Age
+from Human, Human Ancestor
+where Human.ParentId<= Ancestor.Id
+
+
+select distinct starttime from cd.bookings bk
+inner join cd.members mem
+on bk.memid=bk.memid
+where mem.firstname='David' and mem.surname='Farrell'
+order by starttime
+
+select cnt67.salary from
+( select tbl.salary, dense_rank() over( order by Sal desc) as dr )
+cnt67 where cnt67.dr<=3;
