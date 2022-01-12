@@ -1,0 +1,354 @@
+Learning Path: Microsoft Azure Data Fundamentals: Explore relational data in Azure 
+
+Module 1: Explore relational data services in Azure
+=====================================================
+Understand IaaS, PaaS, and SaaS!!!!!
+
+Above are the ways in which a database can be hosted in Azure.
+
+1. IaaS is an acronym for Infrastructure-as-a-Service. Installing softwares and maintenance
+is on the users. Hardware buying and maintaining is easy.
+IaaS has servers, datacenters, storage, networking.
+
+2. PaaS stands for Platform-as-a-service. PaaS is basically IaaS + DBMS + Operating Systems.
+
+3. SaaS stands for Software-as-a-Service. SaaS is basically PaaS + hosted Apps ( like Microsoft 365)
+
+
+What are Azure Data Services????
+
+Azure Data Services fall into the PaaS category. Azure data services are available for various RDBMS.
+Azure SQL Database, Azure Database for MySQL servers, Azure Database for MariaDB,
+Azure Database for PostgreSQL servers.
+
+Advantages of using Azure Data services:
+1. Reduces the time to administer a DB.
+2. Guarantees 99.99% availability of DB
+
+Disadvantages of using Azure Data services:
+1. Some customizations might not be allowed. 
+2. Certain security restrictions might exist.
+
+Users have no direct control over the platform on which the service runs. Not all features 
+of a DBMS are available to users. If you need more control use, IaaS.
+
+
+SQL Server on Azure virtual machines!!!!
+
+A classic example of IaaS.We're just moving the SQL server ( along with all it's capabilities) to cloud.
+The database runs stored procedures and scripts as part of the database workload. If these stored procedures 
+and scripts depend on features that are restricted by following a PaaS approach, then running SQL Server
+ on your own virtual machines might be a good option. However, you remain responsible for maintaining the
+SQL Server software and performing the various administrative tasks to keep the database running from day-to-day.
+
+This approach is suitable for applications requiring access to the operating system fetaures that are not 
+supported at PaaS level.
+
+The term lift-and-shift refers to the way in which you can move a database directly from an on-premises
+server to an Azure virtual machine without requiring that you make any changes to it.
+
+Use cases:
+Optimised for migrating existing applications to cloud or extending existing on-premises applications
+to the cloud in hybrid deployments.
+
+A hybrid deployment is a system where part of the operation runs on-premises, and part in the cloud
+
+Advantages:
+1. Rapide development and testing as there is no need to buy on-premise hardware.
+2. Become lift-and-shift ready to enable quick migration to cloud with minimal changes.
+3. Scale up the platform to increase the virtual machine size. ( more memory, CPU power, disk space)
+
+
+Azure SQL Database!!!!
+
+Azure SQL Database is the PaaS offering of Microsoft. You create a managed database server in the cloud
+then deploy the databases on this server.
+Azure SQL database is available in several options which are:
+
+1. Single Database -> quickly sets up and runs a single SQL server database. Microsoft manages the server
+all you have to do is configure the database, create tables, populate with data. You can scale the DB
+in terms of memory, CPU and disk space. By default resources are pre-allocated and you're charged per
+hour for the resources you have requested. You can also specify a serverless configuration.
+In this config, Microsoft creates it's own server which can be shared by multiple azure users.
+Microsoft ensures the data privacy.
+
+
+2. Elastic Pool -> Similar to single database but by default multiple databases can share the 
+same resources.The resources are referred to as pool. You create a pool and your databases can use the
+pool. This model is useful if you have resource requirements that vary over time. 
+For example, If certain resources are accessed more during the end of month and certain resources
+are accessed during the beginning of the month, a pool makes sense.  
+
+Use Cases:
+
+It's used in new cloud projects. Azure SQL Database is often used for:
+1. Modern Cloud applications that need to use the latest SQL Server features. Automatically updates
+and patches the SQL Server software
+
+2. Applications that require high availability. Available atleast 99.99 % of the time.
+Easy recovery, provides point-in-time restore.
+
+3. Systems with variable load ( increase or decrease quickly) 
+
+Azure SQL Database provides vulnerability assessment to help detect and remediate potentital
+security problem with DBs.
+
+SQL Database secures data by providing encryption.
+
+
+Azure SQL Database managed instance!!!
+
+The single database and elastic pool restrict some of the administrative features available to 
+SQL Server. Managed instance runs a fully controllable SQL Server in cloud. Complete control
+over the instance like an on-premise server.
+
+All communications are encrypted and signed using certificates. These certificates are verified 
+using certificate revocation list.
+
+Use cases:
+
+Consider Managed Instance if you want on-premise like features without any administrative 
+tasks.
+
+Business benefits:
+
+Managed instance provides all the advantages of Single Database and Elastic Pool.
+It also supports logins with Azure Active Directory. There's no need to enter credentials 
+each time you login.
+
+PostgreSQL, MariaDB, and MySQL!!!!
+
+
+What are MySQL, MariaDB, and PostgreSQL
+
+MySQL -> Community edition available in Azure but adds high availability and scalability
+Very popular
+
+MariaDB -> Has all characteristics of MySQL along with Oracle DB compatibility.
+Built in support for temporal data. A table can hold several versions of data, enabling 
+users to access data at a certain point.
+
+PostgreSQL -> Hybrid relational-object database.You can store relational tables but also
+custom data types with their own non-relational properties. It also has the ability to store
+and manipulate geometric data such as lines, circles. PostgreSQL query language is called pgsql.
+
+Benefits of Azure Database for MySQL!!!!
+You get the following features with Azure Database for MySQL:
+
+High availability features built-in.
+Predictable performance.
+Easy scaling that responds quickly to demand.
+Secure data, both at rest and in motion.
+Automatic backups and point-in-time restore for the last 35 days.
+Enterprise-level security and compliance with legislation.   
+
+The system uses pay-as-you-go pricing so you only pay for what you use.
+
+
+Benefits of Azure Database for MariaDB!!!!!
+Azure Database for MariaDB delivers:
+
+Built-in high availability with no additional cost.
+Predictable performance, using inclusive pay-as-you-go pricing.
+Scaling as needed within seconds.
+Secured protection of sensitive data at rest and in motion.
+Automatic backups and point-in-time-restore for up to 35 days.
+Enterprise-grade security and compliance.
+
+
+What is Azure Database for PostgreSQL????
+
+Some of on-premise features of PostgreSQL are not available on cloud. These include writing stored
+procedures and interacting directly with the operating system.
+
+Azure Database for PostgreSQL single-server!!!!
+
+The single-server deployment option for PostgreSQL provides similar benefits as Azure Database for MySQL.
+You choose from three pricing tiers: Basic, General Purpose, and Memory Optimized. Each tier supports 
+different numbers of CPUs, memory, and storage sizes—you select one based on the load you expect to support.
+
+
+Azure Database for PostgreSQL Hyperscale (Citus)!!!
+
+Supports large database loads (scales queries across multiple server nodes)
+Suitable for largest PostgreSQL deployments.
+
+
+Benefits of Azure Database for PostgreSQL!!!
+
+Azure Database for PostgreSQL servers records information about the queries run against databases 
+on the server, and saves them in a database named azure_sys. You query the query_store.qs_view 
+view to see this information, and use it to monitor the queries that users are running. This 
+information can prove invaluable if you need to fine-tune the queries performed by your applications. 
+
+
+
+Migrate data to Azure!!!
+
+If you have existing MySQL, MariaDB, or PostgreSQL databases running on premises, and you want to 
+move the data to a database running the corresponding data services in Azure, you can use the 
+Azure Database Migration Service (DMS).
+
+
+Module 2: Explore Provisioning and deploying relational databases in Azure!!!
+==============================================================================
+
+What is provisioning????
+
+Provisioning is the act of running a series of tasks by a service provider( such as 
+Azure SQL Database) to create and configure a service. These include getting the required 
+amount of CPU, memory and storage capability.
+
+Several tools to provision services:
+1. Azure Portal- > GUI, you can choose various settings and validate them before
+getting them provisioned.
+2. Azure Command Line Interface -> Either use Cloud shell or install CLI locally.
+3. Azure PowerShell
+4. Azure Resource Manager Templates
+
+
+Azure Database for PostgreSQL supports HyperScale option. Hyperscale is ideal for 
+Horizontal scaling across multiple machines. Query parallelisation across multiple servers.
+
+The 3 pricing tiers are
+1. Basic -> Dev stuff
+2. General Purpose/ Standard -> small web apps
+3. Memory optimised -> High performance database. Real time data; high performance transactions.
+
+
+Describe configuring relational data services!!!!!
+
+After you've provisioned a resource, you'll often need to configure it to meet the needs of
+your applications and environment. For example, you might need to set up network access, 
+or open a firewall port to enable your applications to connect to the resource.
+  
+Configure connectivity to virtual networks and on-premises computers!!!
+
+In Virtual Networks sections, you can configure which virtual network can route traffic to 
+the service. Virtual Network can include web applications and virtual machines. These virtual
+networks can then in the list of allowed networks.
+
+If you need to connect the service to the on-premises computer, then in the firewall section,
+add the current IP.
+
+A firewall rule of 0.0.0.0 enables all Azure services to pass through the server-level firewall 
+rule and attempt to connect to a single or pooled database through the server.
+
+Azure Private endpoint is a netwrok interface that allows you to connect privately and securely to
+a service provided by Azure. This brings the service to the virtual network.
+
+
+Configure authentication!!!
+
+Centrally manage the identities of database users and other Microsoft services.
+
+Configure access control!!!!
+
+Azure AD (Active Directory ) enables you to specify who or what can access your resources.
+Access control defines what the user or application can do with the resources once they have 
+been authenticated. Azure RBAC ( Role Based Access Control ) manages who has access to resources 
+and what they can do with those.
+
+You control access to resources using Azure RBAC to create role assignments.A role assignment
+consists of 3 elements:
+
+1. Security principal-> user or a group that is requesting access to a Azure resource.
+2. Role Definition -> collection of permissions.What are the various operations that can 
+be performed ( like read, write, delete). Various roles are owner, contributor, reader.
+3. Scope -> defines the lists the resources the access applies to.
+
+
+Configure Azure SQL Database!!!!
+
+Only necessary connection and communication for the service to operate.All other ports and
+connections are blocked.
+
+An ACL (Access Control List) contains a list of resources, and the objects (users, computers, 
+and applications) that are allowed to access those resources.
+
+Connectivity from within Azure!!!
+
+First request from other Azure Service to the SQL Database goes through a gateway.
+Subsequently, there'll be direct connections to the SQL database.
+
+If connectivity to the database subsequently fails, your application will have to reconnect 
+through the gateway, when it might be directed to a different copy of the database running on 
+another server in the cluster.    	
+
+
+Connectivity from outside of Azure!!!
+
+All the connections to SQL Database needs to go through a Gateway. Each request could potentially
+be service by a different database in the cluster.
+
+Configure DoSGuard!!
+
+Denial of Service (DoS) attacks are reduced by a service called DoSGuard. If there are multiple
+failed logins from a particular IP, then it gets blocked for a short duration.   
+
+DoSGuard also encrypts communication, validates all connections to the database servers.
+
+
+Configure read replicas!!!
+
+You can replicated data from PostgreSQL/ MySQL server to a read-only server. Read replicas 
+improve the performance and scale of read-intensive workloads. Read workloads can be satisfied by
+the read replicas while write-workloads can be directed to the master.
+
+Read replicas are not immediately updated and hence there might be some lag between the
+actual data and the data in the read replica.
+
+SQL statements are grouped into two main logical groups, and they are:
+
+Data Manipulation Language (DML)
+Data Definition Language (DDL)
+
+Use DML statements!!!!
+
+You use DML statements to manipulate the rows in a relational table. These statements enable 
+you to retrieve (query) data, insert new rows, or edit existing rows. You can also delete rows 
+if you don't need them anymore.
+
+The four main DML statements are:
+
+
+Statement	Description
+SELECT		Select/Read rows from a table
+INSERT		Insert new rows into a table
+UPDATE		Edit/Update existing rows
+DELETE		Delete existing rows in a table  
+
+
+Use DDL statements
+You use DDL statements to create, modify, and remove tables and other objects in a database 
+(table, stored procedures, views, and so on).
+
+The most common DDL statements are:
+
+Statement	Description
+CREATE		Create a new object in the database, such as a table or a view.
+ALTER		Modify the structure of an object. For instance, altering a table to add a new column.
+DROP		Remove an object from the database.
+RENAME		Rename an existing object.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
