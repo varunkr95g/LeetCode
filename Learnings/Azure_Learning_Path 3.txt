@@ -1,0 +1,3 @@
+Module 1: Explore non relational data offerings in Azure
+===========================================================
+
