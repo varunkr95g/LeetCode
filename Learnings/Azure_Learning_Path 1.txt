@@ -1,0 +1,483 @@
+Why Cloud computing ?
+
+Cloud computing provides basically 2 things:
+	1. Compute power
+	2. Storage. 
+
+Both of these can be increased as and when required and we pay only for that.	
+
+
+
+
+The certificate I'm aiming for DP-900 Azure Data Fundamentals.
+
+I'm following the contents from the Microsoft Azure official documentation. 
+Not following Pluralsight!!!!
+
+First Certificate: DP-900 Azure Data Fundamentals.
+
+It has 4 learning paths:
+
+https://docs.microsoft.com/en-in/learn/certifications/exams/dp-900?tab=tab-learning-paths
+
+The first learning path is 
+Microsoft Azure Data Fundamentals: Explore core data concepts
+
+
+Module 1 -> Explore core data concepts
+======================================
+Data -> collection of facts.
+Types of data:
+1. Structured - Typically tabular data in form of rows and columns. DBs that hold
+tables are called Relational database. Each row in table has same set of columns.
+
+2. Semi-structured - Doesn't reside in relational DB but has some structure to it.
+Example -> JSON, key-value stores, graph databases
+
+3. Unstructured -> Audio, video and binary data files. No structure to it.
+
+How is data defined, stored and accessed in cloud computing ?????
+
+Structured data is stored in SQL Server or Azure SQL database. Azure SQL database is 
+used to create and access relational tables. The act of setting up a database server is called
+Provisioning.
+
+Unstructured data is stored in Azure Blob Storage.
+Semi-structured data is stored in Azure Cosmos DB.
+
+Different levels of access which can be configured:
+1. Read Only access -> Users can only read data
+2. Read/Write Access -> view and modify the data.
+3. Owner privilege -> Full access including adding users and removing access to existing users 
+
+
+
+Describe data processing solutions !!
+
+Transactional System
+
+A transactional system records transactions. Transaction is a small,discrete unit of work.
+Movement of money b/w bank accounts is an example of transaction.
+Transactional systems are high volume and data has too be accesible quickly.
+The work performed by the transactional system is called OLTP  ( Online Transactional Processing)
+
+To support fast processing, data gets divided into smaller chunks. This means only the particular
+columns required for a transaction are available. This leads to creation of multiple 
+tables and this is referred to as normalized data.
+
+The disadvantage of it is, to get an overall picture, lot of joins need to be performed,
+which might lead to poor performance.
+
+
+
+Analytical System
+
+
+Supports business users who query data and get the big picture of the information.
+Capture data and generate insights.
+
+4 processes involved in data processing systems:
+
+1. Data Ingestion -> capturing the raw data. Can come from various sources. This data needs
+to be stored in a repository of some sort. It could be a file, database or a relational database.
+
+2. Data Processing / Data Transformation -> 
+
+3. Data Querying
+
+4. Data Visualization -> Power BI
+
+
+Describe the characteristics of relational and non-relational data!!!
+
+One of the disadvantages for storing data in relational DB would be the necessity of 
+normalization. To ensure that the data is stored accurately multiples tables will be 
+required. Then, to do an overall analysis, expensive joins will be required.
+
+Refer to the example here:
+
+https://docs.microsoft.com/en-in/learn/modules/explore-core-data-concepts/3-identify-types-storage
+
+Non-relational DBs are more helpful in the flexibility they provide and the entire data might
+be stored as key-value pairs. One of the disadvantages of Non-relational DBs would be 
+id 2 customers had the same address, their values will be entered twice leading to data duplication
+and if address needs to be updated, it will be done at 2 locations.
+
+
+Describe transactional workloads!!!
+
+Relational DBs handle transactional processing. A transaction is a sequence of operations 
+that are atomic. Either the sequence succeeds or if something goes wrong, all operations
+run so far must be undone.
+
+At the end, wither everything is successful or it's returned back to the starting point.
+A transactional database must adhere to the ACID properties.
+
+ 
+Atomicity -> each transaction either completes successfully or fails completely. 
+
+Consistency -> each transaction takes the data from 1 valid state to another.Should never lose
+or create data in a manner that can't be accounted for.
+
+Isolation -> ensures concurrent execution of the transaction leaves the DB in the 
+same state if transactions are executed sequentially.
+
+Durability -> Once the transaction is committed, it remains committed despite any power outage
+or other factors.
+
+Transactional systems are complex, need to manage multiple users concurrently.
+Locks are introduced when 1 user updates a DB so that another user can't read it.
+However, extensive locaking will lead to poor performance.
+
+A distributed database is a database wherein data is stored over different physical locations.
+A data update to a distributed database will take more time than non-distributed DB.
+locks maybe required for transactional consistency for a long time.
+
+To counter this, a concept of eventual consistency is utilised. There's a common server
+which knows all the data updates ( adds/deletes) and then it's propogated to various DBs, it might lead to 
+inconsistency of the data, but it'll have low latency. It's used in 
+social media websites for displaying the count of likes & shares.   	
+
+
+Describe analytical workloads!!!
+
+Analytical systems are read only system which store huge volumes of data. Used for
+data analysis and decision making.
+
+
+
+Describe the difference between batch and streaming data
+
+If the data is processed as it arrives, then it's streaming.
+If the data is buffered into a group and the group is then processed then it's batch
+processing.
+
+Understand batch processing!!!!!
+
+Newly arriving data elements are collected into a group and the grouped data is then processed.
+Regarding when the data is processed, it could be time-based ( hourly/ daily)
+or wait for the record count to be a certain value ( 1 mil records processed at a single time)
+
+Advantages of batch processing:
+1. Large volumes can be processed.
+2. the jobs can be scheduled to run at non-peak hours ( complete usage of the system)
+
+Disadvantages of batch processing: 
+1. Time delay b/w the data ingested and getting the results
+2. All the batch job data should be available and should be error-free. 
+Checks need to be performed to ensure that.
+
+
+Understand streaming and real-time data!!!!
+
+Data is processed as it arrives. Steaming processes are ideal for time critical operations.
+Handling data from a Stock-markets is an example of streaming operation.
+
+
+Understand differences between batch and streaming data!!!!
+
+1. Data Scope: Batch processing can process all the data, but streaming can process most
+recent data ( 30 second window.) 
+
+2. Data Size: Batch processing can handle huge amount of data, streaming handles few records.
+
+3. Perfromance: Batch job latency is few hours, streaming is few secs or millisecs
+
+4. Analysis: Batch job is used for complex analysis, streaming is used for simple response
+functions.
+
+ 
+
+Module 2: explore roles responsibilities in the world of data
+===========================================================
+
+What are the roles in the world of data?
+1. Azure Database administrator -> Recovers human-made error, grants privileges, manages
+security maintenance of the system. Responsible for the overall availability and consistent
+performance of the system.
+
+2. Data Engineer -> ingests, cleans and tranforms the raw data based on the 
+business requirements into a consumable form 
+
+3. Data Analyst -> Enables the business to maximise their data assets. Builds models
+on the transformed data and does visualizations 
+
+
+Review tasks and tools for database administration
+
+Manages and organises databases.
+
+Common Administrator tools:
+1. Azure Data Studio -> Manage different DB systems.
+2. SQL Server Management Studio -> Can generate Transact-SQL (T-SQL)scripts
+for all functionality.
+
+Azure Portal is used to manage Azure SQL database. You can create a new DB, increase
+it's size, assign VCores and delete the DB once it's not needed.
+
+
+
+Module 3: Describe concepts of relational data
+=================================================
+
+In a relational database, you model collections of entities from the real world as tables. 
+An entity is described as a thing about which information needs to be known or held
+
+Relational databases is commonly used for OLTP. Examples of OLTP that use relational
+databases are:
+1. Banking
+2. eCommerce ( Retail)
+
+Index!!!!!
+
+An index in a table is like an index in a book. It will help us to get the right rows without
+scanning the entire table. For example:
+
+select * from table where Col_1=C1
+
+If Col_1 is an index, instead of scanning the entire table, the query will directly go to 
+the index and fetch the relevant rows making the output appear quicker.
+
+index has the column value along with a reference to the column value in the table.
+
+However, indexes are not free, they take additional storage and each time an insert, update
+or delete the data, indexes must be maintained. If table is read only and updates are not 
+frequent, having more indexes is a better operation, but for a OLTP with frequent writes,
+having more indexes is not helpful.
+
+Some relational database systems support clustered index. Clustered index physically reorganises
+a table by the index key. This can improve the performance further as RDBMS
+will not have to follow the reference from the index to get the corresponding row in the table.
+
+
+
+Choose the right platform for a relational workload!!!!!!
+
+There are 3 different choices widely
+1. On-Premise -> Everything happens at an on-premise cluster. Advantage would be maximum control (peace of mind)
+Disadvantages would be difficult to scale, maintenance costs, high capital expenditure
+i.e.( To handle more data, higher compute power needs to purchased and added. )
+
+2. IaaS -> Infrastructure as a Service. Basically you're taking an on-premise cluster to
+cloud. There'll be no software maintenance done, but scaling up would be easier as
+cloud provides the compute power. No need to buy or maintain hardware. Users are responsible
+for configuring the software, patching, taking the backups.
+
+The Iaas approach is best for migrations and applications requiring operating system-level
+access. 
+
+
+3. PaaS -> Platform as a Service. Everything is provided by the cloud ( software maintenance)
+Only disadvantage would be certain functionalities might not be available due to
+security reasons. The underlying operating system and hardware might not be exposed to the user.
+
+
+
+Module 4: Describe concepts of non relational data
+==========================================================
+
+What are the characteristics of non-relational data???????
+
+Non relational data helpful in storing the data as it arrives. enables us to the store the
+data in a very flexible manner. Do not impose a schema on the data. Info stored in the 
+natural format. Information of entities is stored in the form of collections/containers
+rather than relational tables. 2 entities in a collection can have different set of fields.
+
+Example for non-relational data:
+
+## Customer 1
+ID: 1
+Name: Mark Hanson
+Telephone: [ Home: 1-999-9999999, Business: 1-888-8888888, Cell: 1-777-7777777 ]
+Address: [ Home: 121 Main Street, Some City, NY, 10110,
+           Business: 87 Big Building, Some City, NY, 10111 ] 
+
+## Customer 2
+ID: 2
+Title: Mr
+Name: Jeff Hay
+Telephone: [ Home: 0044-1999-333333, Mobile: 0044-17545-444444 ]
+Address: [ UK: 86 High Street, Some Town, A County, GL8888, UK,
+           US: 777 7th Street, Another City, CA, 90111 ]
+           
+           
+
+The application that queries the data must be prepared to parse the info to get the relevant data.
+
+Non-relational database provides proprietary language for querying and managing data.
+
+Non-relational DB use-cases:
+1. IoT ( Internet of Things): These generate a lot of data which can be stored quickly and easily 
+using non-relational data.
+2. Retail and Marketing : Microsoft itself uses non-relational data for Xbox and Microsoft store.
+3. Gaming : 
+4. Web and Mobile application: 
+
+
+A relational database restructures the data into a fixed format that is designed to answer specific queries.
+When data needs to be ingested very quickly, or the query is unknown and unconstrained, a relational database
+can be less suitable than a non-relational database.
+
+What is semi-structured data???????
+
+Semi-structured data is data that contains fields. The fields do not have to be the same in every entity.
+Fields are defined on a per entity basis. JSON ( JavaScript Object Notation) is common example.
+
+Other formats are 
+1. Avro -> Row-based . Good for compressing data.
+2. ORC -> stripe based, extracts only certain subset of data for quick data querying.
+Highly compressed. Column-based
+3. Parquet -> Columnar. It contains row-groups. Row-groups contain the data for each columns.
+Parquet file includes metadata for each row-group. This ensures only the required subset is read
+for querying purpose. Extremely good for nested structures.
+
+
+Describe types of non-relational and NoSQL databases!!!!!!!!
+
+NoSQL -> Not only SQL.
+
+4 categories of NoSQL databases:
+
+1. Key-Value-> Simplest and quickest way to insert and query the data. each data item in a key
+store has 2 elements, key and value.key identifies the item and the value holds the data.
+the value is opaque to the DBMS. Write operations are restricted to inserts and deletes.
+Focus on key-store is to make read and writes very effective, search capability is secondary.
+Cosmos DB implements key-value storage using TABLE API!!
+
+
+2. Document database -> opposite end on NoSQL spectrum compared to key-value storage. Each
+document has a unique ID and fields in the document are transparent to the DBMS. Document
+contains the entire data of an entity. A single document might contain data spanning over 
+multiple tables in RDBMS. 
+
+Document  DBs ingest data faster than relational tables but slower compared to key-value
+pairs. The focus of document DB is it's querying capability. Azure Cosmos DB implements
+a document DB using Core( SQL ) API!!!!
+
+
+3. Column family -> entire row of a table becomes a Key Value pair and a single value.
+It takes a denormalized approach to structure sparse data.
+Example:
+
+CustomerID Title FirstName
+1			Mr.		ABC
+
+Column Family
+1: Title : Mr.
+   FirstName : ABC		
+
+The most widely used column family DBMS is Apache Cassandra. Cosmos DB supports Column family
+using the Cassandra API!!!   
+
+
+4. Graph DBs -> Enables us to store entities along with the relationship that these entities
+have with each other. Nodes ( Boxes ) are the entities and edge ( Lines ) show the relationship b/w
+the entities. Very to figure out all the DRs of a particular Team Member.
+Azure Cosmos DB supports Graph DBs through Gremlin API!!!!
+
+
+
+Module 5: Explore Concepts of Data Analytics
+=============================================================
+
+
+Describe data ingestion and processing!!!!
+
+
+Data ingestion and Data Processing happens
+
+2 data processing mechanisms:
+
+1. ETL -> Extract, Transform and Load. The raw data is retrieved and transformed before it's stored.
+Useful for simple and less calculations. Used for data cleaning tasks, deduplicating data
+and reformatting contents of individual fields.
+
+
+2. ELT -> Extract, Load and Transform. Data is stored before being transformed.
+ Useful for complex analysis.  It can also receive data from storage perform the 
+ transformations and then write the data back to storage.
+
+
+ETL helps with improved data privacy and compliance and doesn't require specialist skills.
+
+ELT provides data lake support and helps handle huge volumes of data.
+
+
+Explore data visualization!!!!!
+
+What is reporting??
+Reporting is the process of organising data into informational summaries. Reporting 
+shows what has happened and analytics tries to explain why it has happened and what you can do about it.
+
+What is business intelligence???
+
+BI refers to technologies, applications and practices for collection, integration , 
+analysis and presentation of business info.
+
+What is data visualization????
+
+Graphical representation of information and data. The most popular visulazation tool 
+in Azure is Power BI. Power BI helps combine different sources of data and combine it 
+into a data model.
+
+Data visualization helps understand the meaning of data rather than looking at data itself.
+
+
+Explore data analytics!!!!
+
+5 categories of data analytics:
+
+1. Descriptive analytics -> Helps answer questions about what has happened based on historical data.
+Example: Report on the financial and sales data of an organization.
+
+2. Diagnostic analytics -> Helps answers questions about why this happened.It supplements the basic 
+descriptive analytics.
+
+3. Predictive analytics -> Helps answers questions about what will happen in future.
+Neural networks and regression models are an example
+
+4. Prescriptive analytics -> what measures should be taken to achieve a goal or target.
+by using insights from predictive analytics, data driven decisions can be made.
+Use Machine Learning strategies.
+
+5. Cognitive analytics -> draw inferences from existing data and patterns, derive conclusions 
+based on existing knowledge bases and add these findings back to knowledge base.
+It's like a self learning feedback loop. It uses NLP ( Natural Language Processing) to make
+sense of previously untapped data sources like product reviews. 
+
+      
+ 
+            
+
+ 
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+	
