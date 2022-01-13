@@ -1,3 +1,110 @@
 Module 1: Explore non relational data offerings in Azure
 ===========================================================
 
+Explore Azure Table storage!!!!
+
+Azure Table Storage implements the NoSQL key-value model. Data is stored as a sett of fields and item is uniquely identified by a keey. 
+
+ An Azure table enables you to store semi-structured data. All rows in a table must have a key, but apart from that the columns in each row can vary.
+ Data will usually be denormalized, with each row holding the entire data for a logical entity.
+ 
+ To help ensure fast access, Azure Table Storage splits a table into partitions.Partitioning is a mechanism for grouping related rows, based on a common property or partition key.Rows that share the same partition key will be stored together. Partitioning not only helps to organize data, it can also improve scalability and performance:
+ When you search for data, you can include the partition key in the search criteria. This helps to narrow down the volume of data to be examined, and improves performance by reducing the amount of I/O (reads and writes) needed to locate the data.
+ 
+ The key in an Azure Table Storage table comprises two elements; the partition key that identifies the partition containing the row (as described above), and a row key that is unique to each row in the same partition. Items in the same partition are stored in row key order. If an application adds a new row to a table, Azure ensures that the row is placed in the correct position in the table.
+ 
+ This scheme enables an application to quickly perform Point queries that identify a single row, and Range queries that fetch a contiguous block of rows in a partition.
+ 
+ Use cases and management benefits of using Azure Table Storage!!!!!!
+ 
+ Azure Table Storage tables are schemaless. It's easy to adapt your data as the needs of your application evolve.You can use tables to hold flexible datasets such as user data for web applications, address books, device information, or other types of metadata your service requires. The important part is to choose the partition and row keys carefully.
+ 
+ Addvantags of Azure Table Storaage:
+
+1. Quick writes irresopective of table volume
+2. Quick reads provided thee partittion key and row keys are mentioned correctly.
+3. Can stire huge amount of data ( 5 PB)
+4. Can store semi-struured datta.
+
+Disadvantages:
+
+1. difficult to query non-key data. Full taable scan will be requird.
+2. No rreationship b/w rows is mainained.
+
+Azure Table Storage is an excellent mechanism for:
+
+Storing TBs of structured data capable of serving web scale applications. Examples include product catalogs for eCommerce applications, and customer information, where the data can be quickly identified and ordered by a composite key.
+In an IoT system, you might use Azure Table Storage to capture device sensor data. Each device could have its own partition, and the data could be ordered by the date and time each measurement was captured.
+Capturing event logging and performance monitoring data. Event log and performance information typically contain data that is structured according to the type of event or performance measure being recorded
+
+
+Explore Azure Blob storage!!!!!!!!!!!!!
+
+The term blob is an acronym for Binary Large OBject.
+
+Many applications need to store large, binary data objects, such as images and video streams
+
+What is Azure Blob storage????????
+
+Azure Blob storage is a service that enables you to store massive amounts of unstructured data, or blobs.
+Azure currently supports three different types of blob:
+
+Block blobs. A block blob is handled as a set of blocks. Each block can vary in size, up to 100 MB. A block blob can contain up to 50,000 blocks, giving a maximum size of over 4.7 TB. The block is the smallest amount of data that can be read or written as an individual unit. Block blobs are best used to store discrete, large, binary objects that change infrequently.
+
+Page blobs. A page blob is organized as a collection of fixed size 512-byte pages. A page blob is optimized to support random read and write operations; you can fetch and store data for a single page if necessary. A page blob can hold up to 8 TB of data.
+
+Append blobs. An append blob is a block blob optimized to support append operations. You can only add blocks to the end of an append blob; updating or deleting existing blocks isn't supported. Each block can vary in size, up to 4 MB. The maximum size of an append blob is just over 195 GB
+
+Blob storage provides three access tiers, which help to balance access latency and storage cost:
+
+The Hot tier is the default. You use this tier for blobs that are accessed frequently. The blob data is stored on high-performance media.
+
+The Cool tier. This tier has lower performance and incurs reduced storage charges compared to the Hot tier. Use the Cool tier for data that is accessed infrequently. It's common for newly created blobs to be accessed frequently initially, but less so as time passes. 
+
+The Archive tier. This tier provides the lowest storage cost, but with increased latency. The Archive tier is intended for historical data that mustn't be lost, but is required only rarely.To retrieve a blob from the Archive tier, you must change the access tier to Hot or Cool. The blob will then be rehydrated
+
+Common uses of Azure Blob Storage include:
+
+Storing files for distributed access
+Streaming video and audio
+Images.
+
+General statement on Availability:
+
+To ensure availability, Azure Blob storage provides redundancy. Blobs are always replicated three times in the region in which you created your account, but you can also select geo-redundancy, which replicates your data in a second region (at additional cost).
+
+
+Explore Azure File storage!!!!!!!!
+
+Azure File Storage enables you to create files shares in the cloud, and access these file shares from anywhere with an internet connection. Azure File Storage exposes file shares using the Server Message Block 3.0 (SMB) protocol. This is the same file sharing protocol used by many existing on-premises applications.
+
+You create Azure File storage in a storage account. Azure File Storage enables you to share up to 100 TB of data in a single storage account.
+
+Azure File Storage offers two performance tiers. The Standard tier uses hard disk-based hardware in a datacenter, and the Premium tier uses solid-state disks. The Premium tier offers greater throughput, but is charged at a higher rate.
+
+Use cases and management benefits of using Azure File Storage!!!!!
+
+Azure File Storage is designed to support many scenarios, including the following:
+
+Migrate existing applications to the cloud.
+Share server data across on-premises and cloud.
+Simplify hosting High Availability (HA) workload data.
+
+
+All data is encrypted at rest, and you can enable encryption for data in-transit between Azure File Storage and your applications.
+
+Don't use Azure File Storage for files that can be written by multiple concurrent processes simultaneously.Multiple writers require careful synchronization, otherwise the changes made by one process can be overwritten by another. The alternative solution is to lock the file as it is written, and then release the lock when the write operation is complete. However, this approach can severely impact concurrency and limit performance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
