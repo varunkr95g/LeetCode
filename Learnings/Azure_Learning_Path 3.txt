@@ -137,6 +137,139 @@ Gaming. The database tier is a crucial component of gaming applications. Modern 
 Web and mobile applications
 
 
+Module 2: Explore provisioning and deploying non-relational data services in Azure
+======================================================================================================================
+
+Describe provisioning non-relational data services!!!!!
+
+Provision Azure Cosmos DB!!
+
+In Cosmos DB, you organize your data as a collection of documents stored in containers. 
+
+First, Azure Cosmos DB Account is created, then database is created, then containers.
+
+How to create a database and a container!!!!
+
+An Azure Cosmos DB account by itself doesn't really provide any resources. Databases and containers are the primary resource consumers. Resources are allocated in terms of the storage space required to hold your databases and containers, and the processing power required to store and retrieve data.Azure Cosmos DB uses the concept of Request Units per second (RU/s) to manage the performance and cost of databases. 
+
+
+Microsoft gives a measure of approximately one RU as the resources required to read a 1-KB document with 10 fields. If you specify throughput for a database, all the containers in that database share that throughput. If you specify throughput for a container, the container gets that throughput all to itself.
+
+
+Performance. This setting has two options:
+
+Standard storage accounts are based on hard disks. They're the lowest cost of the two storage options, but have higher latency. This type of storage account is suitable for applications that require bulk storage that is accessed infrequently, such as archives.
+
+Premium storage uses solid-state drives, and has much lower latency and better read/write performance than standard storage. Solid-state drives are best used for I/O intensive applications, such as databases. You can also use premium storage to hold Azure virtual machine disks.
+
+Replication. Data in an Azure Storage account is always replicated three times in the region you specify as the primary location for the account. 
+
+Locally redundant storage (LRS) copies your data synchronously three times within a single physical location in the region. 
+
+Geo-redundant storage (GRS) copies your data synchronously three times within a single physical location in the primary region using LRS. It then copies your data asynchronously to a single physical location in the secondary region.
+
+Read-access geo-redundant storage (RA-GRS) replication is an extension of GRS that provides direct read-only access to the data in the secondary location.
+
+Zone redundant storage (ZRS) Zone-redundant storage replicates your Azure Storage data synchronously across three Azure availability zones in the primary region.
+
+Hot Access Tier usecase:
+
+Data that's in active use or expected to be accessed (read from and written to) frequently.
+Data that's staged for processing and eventual migration to the cool access tier.
+
+The cool access tier has lower storage costs and higher access costs compared to hot storage. This tier is intended for data that will remain in the cool tier for at least 30 days. Example usage scenarios for the cool access tier include:
+
+Short-term backup and disaster recovery datasets.
+Older media content not viewed frequently anymore but is expected to be available immediately when accessed.
+Large data sets that need to be stored cost effectively while more data is being gathered for future processing. For example, long-term storage of scientific data, or raw telemetry data from a manufacturing facility.
+
+Describe configuring non-relational data services!!!!!
+
+After you've provisioned a resource, you'll often need to configure it to meet the needs of your applications and environment. For example, you might need to set up network access, or open a firewall port to enable your applications to connect to the resource.
+
+Configure connectivity and firewalls!!!
+
+The default connectivity for Azure Cosmos DB and Azure Storage is to enable access to the world at large. You can connect to these services from an on-premises network, the internet, or from within an Azure virtual network.
+
+Any user or application that knows the access key for a resource can connect to that resource. However, access keys provide a rather coarse-grained level of authentication. Additionally, if you need to regenerate an access key (after accidental disclosure, for example), you may need to update all applications that connect using that key
+
+Azure Active Directory (Azure AD) provides superior security and ease of use over access key authorization. Microsoft recommends using Azure AD authorization when possible to minimize potential security vulnerabilities inherent in using access keys.
+
+Configure access control!!!!!
+
+Azure AD enables you to specify who, or what, can access your resources. Access control defines what a user or application can do with your resources after they've been authenticated.
+
+Azure role-based access control (Azure RBAC) helps you manage who has access to Azure resources, and what they can do with those resources. 
+
+You control access to resources using Azure RBAC to create role assignments. A role assignment consists of three elements: a security principal, a role definition, and a scope.
+
+A security principal is an object that represents a user, group, service, or managed identity that is requesting access to Azure resources.
+
+A role definition, often abbreviated to role, is a collection of permissions.Azure includes several built-in roles that you can use, including:
+
+Owner - Has full access to all resources including the right to delegate access to others.
+Contributor - Can create and manage all types of Azure resources but can't grant access to others.
+Reader- Can view existing Azure resources.
+User Access Administrator - Lets you manage user access to Azure resources.
+
+A scope lists the set of resources that the access applies to. When you assign a role, you can further limit the actions allowed by defining a scope. 
+
+Configure Cosmos DB!!!!!
+
+Replication is asynchronous, so there's likely to be a lag between a change made in one region, and that change becoming visible in other regions.
+
+Within a single region, Cosmos DB uses a cluster of servers. This approach helps to improve scalability and availability. But this could leadd to inconsistenny as Write could be performed on Server A. But the read operation is happnnng from Server B and Servers A & B are not synchronised yet.
+
+Cosmos DB enables you to specify how such inconsistencies should be handled. It provides the following options:
+
+Eventual -> This option is the least consistent. Changes won't be lost, they'll appear eventually, but they might not appear immediately. Additionally, if an application makes several changes, some of those changes might be immediately visible, but others might be delayed; changes could appear out of order.
+
+Consistent Prefix -> This option ensures that changes will appear in order, although there may be a delay before they become visible. In this period, applications may see old data.
+
+Session -> If an application makes a number of changes, they'll all be visible to that application, and in order. Other applications may see old data, although any changes will appear in order, as they did for the Consistent Prefix option. This form of consistency is sometimes known as read your own writes.
+
+Bounded Staleness -> There's a lag between writing and then reading the updated data. You specify this staleness either as a period of time.
+
+Strong-> In this case, all writes are only visible to clients after the changes are confirmed as written successfully to all replicas. This option is unavailable if you need to distribute your data across multiple global regions.
+
+Eventual consistency provides the lowest latency and least consistency. Strong consistency results in the highest latency but also the greatest consistency. You should select a default consistency level that balances the performance and requirements of your applications.
+
+Configure shared access signatures!!!!
+
+You can use shared access signatures (SAS) to grant limited rights to resources in an Azure storage account for a specified time period. A SAS is a token that an application can use to connect to the resource.  The application appends the token to the URL of the resource. The application can then send requests to read or write data using this URL and token.
+
+
+
+Module 3: Manage Non-Relational Data Sources in Azure
+======================================================================================================================
+
+Database has containers. Container has documents.
+
+Documents in a Cosmos DB database are organized into containers.  The documents in a container are grouped together into partitions. A partition holds a set of documents that share a common partition key. For example, in a document database for an ecommerce system recording the details of customers and the orders they've placed, you could partition the data by customer ID, and store the customer and order details for each customer in the same partition. 
+
+What are Cosmos DB APIs????
+
+SQL API--> This API provides a SQL-like query language over documents, that enables you to retrieve documents using SELECT statements
+Table API-> This interface enables you to use the Azure Table Storage API to store and retrieve documents. 
+MongoDB API -> You can use the MongoDB API for Cosmos DB to enable a MongoDB application to run unchanged against a Cosmos DB database.
+Cassandra API.  ->
+ Gremlin API
+
+The principal use of the Table, MongoDB, and Cassandra APIs is to support existing applications written using these data stores. If you're building a new application and database, you should use the SQL API or Gremlin API.
+
+Perform data operations in Cosmos DB!!!
+
+Cosmos DB provides several options for uploading data to a Cosmos DB database, and querying that data. You can:
+
+Use Data Explorer in the Azure portal to run ad-hoc queries. Also, used to load the data upto 2 MB
+Use Cosmos DB Data Migration tool
+Use Azure Data Factory
+Use Cosmos DB Bulk Executor library
+
+
+
+
+
 
 
 
