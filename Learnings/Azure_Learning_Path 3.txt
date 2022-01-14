@@ -266,7 +266,28 @@ Use Cosmos DB Data Migration tool
 Use Azure Data Factory
 Use Cosmos DB Bulk Executor library
 
+Query Azure Cosmos DB!!!!
 
+Understand a SQL API query!!!
+
+SELECT clause. The clause starts with the keyword SELECT followed by a comma-separated list of properties to return. The keyword “*” means all the properties in the document.
+
+FROM Clause is followed by the name of the container.
+
+ In the SQL API, you use JOIN clauses to connect fields in a document with fields in a subdocument that is part of the same document. You can't perform joins across different documents.
+ 
+ the SQL API query language doesn't support the GROUP BY clause; 
+ 
+ Manage Azure Blob storage!!!!!!
+ 
+ Manage Azure File storage!!!!!
+ 
+ However, if you need to transfer a significant number of files in and out of Azure File storage, you should use the AzCopy utility. AzCopy is a command-line utility optimized for transferring large files (and blobs) between your local computer and Azure File storage.
+ 
+ Generate an SAS token!!!
+ Before you can use AzCopy, you generate a Shared access signature (SAS) token. A SAS token provides controlled, time-limited, anonymous access to services and resources in a storage account; 
+ 
+ 
 
 
 
