@@ -1,1 +1,24 @@
 
+Module 1: Examine components of a modern Data Warehouse
+============================================================================
+
+Describe modern data warehousing!!!
+
+It consists of various relational and non-relaional sources, get fed to Azure Data Factory. From there, it's stored in Azure Data Lake Storage. Analysis can be hapen dirctly via Azure Synapse services or via Azure Databricks ( for further transformations) and then fed to Azure Synapse services. From Azure Synpase Services it's fed to Azure Analysis Services and then finally to Power BI for visualaisation.
+
+Explore Azure data services for modern data warehousing!!!!
+
+What is Azure Data Factory?????
+
+Azure Data Factory is described as a data integration service. The purpose of Azure Data Factory is to retrieve data from one or more data sources, and convert it into a format that you process. For example, your data might contain dates and times formatted in different ways in different data sources. You can use Azure Data Factory to transform these items into a single uniform structure. 
+
+What is Azure Data Lake Storage????
+
+A data lake is a repository for large quantities of raw data. Because the data is raw and unprocessed, it's very fast to load and update, but the data hasn't been put into a structure suitable for efficient analysis.  It has the following characteristics:
+
+Data Lake Storage organizes your files into directories and subdirectories for improved file organization.
+Data Lake Storage supports the Portable Operating System Interface (POSIX) file and directory permissions to enable granular Role-Based Access Control (RBAC) on your data.
+Azure Data Lake Storage is compatible with the Hadoop Distributed File System (HDFS).
+
+
+
