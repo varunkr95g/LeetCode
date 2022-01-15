@@ -20,5 +20,119 @@ Data Lake Storage organizes your files into directories and subdirectories for i
 Data Lake Storage supports the Portable Operating System Interface (POSIX) file and directory permissions to enable granular Role-Based Access Control (RBAC) on your data.
 Azure Data Lake Storage is compatible with the Hadoop Distributed File System (HDFS).
 
+What is Azure Databricks????
+
+Azure Databricks is an Apache Spark environment running on Azure to provide big data processing, streaming, and machine learning. 
+
+What is Azure Synapse Analytics???
+
+Azure Synapse Analytics is an analytics engine. It's designed to process large amounts of data very quickly.Azure Synapse Analytics enables you to store the data you have read in and processed locally, within the service. 
+
+Azure Synapse Analytics leverages a massively parallel processing (MPP) architecture. This architecture includes a control node and a pool of compute nodes.
+( From my spark understanding control node is similar to deriver and compute node is similar to execuotrs.)
+
+The Control node is the brain of the architecture. It's the front end that interacts with all applications. The MPP engine runs on the Control node to optimize and coordinate parallel queries. When you submit a processing request, the Control node transforms it into smaller requests that run against distinct subsets of the data in parallel.
+
+
+The Compute nodes provide the computational power. The data to be processed is distributed evenly across the nodes. Users and applications send processing requests to the control node. The control node sends the queries to compute nodes, which run the queries over the portion of the data that they each hold. When each node has finished its processing, the results are sent back to the control node where they're combined into an overall result.
+
+Azure Synapse Analytics supports two computational models: SQL pools and Spark pools.
+In a SQL pool, each compute node uses an Azure SQL Database and Azure Storage to handle a portion of the data.
+However, unlike an ordinary SQL Server database engine, Azure Synapse Analytics can receive data from a wide variety of sources.  To do this, Azure Synapse Analytics uses a technology named PolyBase. PolyBase enables you to retrieve data from relational and non-relational sources, such as delimited text files, Azure Blob Storage, and Azure Data Lake Storage.
+
+Azure Synapse Analytics can consume a lot of resources. If you aren't planning on performing any processing for a while, you can pause the service. This action releases the resources in the pool to other users, and reduces your costs.
+
+What is Azure Analysis Services?????
+
+Azure Analysis Services enables you to build tabular models to support online analytical processing (OLAP) queries.
+
+Compare Analysis Services with Synapse Analytics!!!!
+
+Azure Analysis Services has significant functional overlap with Azure Synapse Analytics, but it's more suited for processing on a smaller scale.
+Use Azure Synapse Analytics for:
+
+Very high volumes of data (multi-terabyte to petabyte sized datasets).
+Very complex queries and aggregations.
+Complex ETL operations.
+Low to mid concurrency (128 users or fewer).
+
+Use Azure Analysis Services for:
+
+Smaller volumes of data (a few terabytes).
+High read concurrency (thousands of users).
+Detailed analysis, and drilling into data, using functions in Power BI.
+Rapid dashboard development from tabular data.
+
+Using   Azure Analysis Services after the daa has been sufficiently ransformeed using Azure Synapse Analytics also is very efficient.
+
+What is Azure HDInsight????
+
+Azure HDInsight is a big data processing service, that provides the platform for technologies such as Spark in an Azure environment.
+
+
+Module 2: Explore Large Scale Data Anaytics!!!
+===============================================================================
+
+Describe common practices for data loading!!!!!
+
+In a big data system, data ingestion has to be fast enough to capture the large quantities of data that may be heading your way, and have enough compute power to process this data in a timely manner.
+
+Ingest data using Azure Data Factory!!!!!
+
+Azure Data Factory is a data ingestion and transformation service that allows you to load raw data from many different sources, both on-premises and in the cloud. As it ingests the data, Data Factory can clean, transform, and restructure the data, before loading it into a repository such as a data warehouse
+
+Data Factory provides an orchestration engine. Orchestration is the process of directing and controlling other services, and connecting them together, to allow data to flow between them. Data Factory uses orchestration to combine and automate sequences of tasks that use different services to perform complex operations.
+
+Azure Data Factory uses a number of different resources: linked services, datasets, and pipelines. The following sections describe how Data Factory uses these resources.
+
+Understand linked services!!!!
+
+Data Factory moves data from a data source to a destination. A linked service provides the information needed for Data Factory to connect to a source or destination.
+
+The information a linked service contains varies according to the resource. For example, to create a linked service for Azure Blob Storage, you provide information such as the name of the Azure subscription that owns the storage account, the name of the storage account, and the information necessary to authenticate against the storage account.
+
+Understand datasets!!!!
+
+A dataset in Azure Data Factory represents the data that you want to ingest (input) or store (output).
+
+Understand pipelines!!!!
+
+A pipeline is a logical grouping of activities that together perform a task.
+
+Ingest data using PolyBase!!!!
+
+PolyBase is a feature of SQL Server and Azure Synapse Analytics that enables you to run Transact-SQL queries that read data from external data sources. PolyBase makes these external data sources appear like tables in a SQL database.
+
+Ingest data using SQL Server Integration Services!!!
+
+SQL Server Integration Services (SSIS) is a platform for building enterprise-level data integration and data transformations solutions.
+
+Describe data storage and processing!!!
+
+Process data using Azure Synapse Analytics!!!
+
+Azure Synapse Analytics is a generalized analytics service. You can use it to read data from many sources, process this data, generate various analyses and models, and save the results.
+
+You can select between two technologies to process data:
+Transact-SQL. This is the same dialect of SQL used by Azure SQL Database, with some extensions for reading data from external sources, such as databases, files, and Azure Data Lake storage
+Spark. This is the same open-source technology used to power Azure Databricks. You write your analytical code using notebooks in a programming language such as C#, Scala, Python, or SQL
+
+Process data using Azure Databricks!!!
+
+Databricks can process data held in many different types of storage, including Azure Blob storage, Azure Data Lake Store, Hadoop storage, flat files, databases, and data warehouses.
+
+Process data using Azure HDInsight!!!
+
+Process data using Azure Data Factory!!!!
+
+
+
+
+
+
+
+
+
+
 
 
