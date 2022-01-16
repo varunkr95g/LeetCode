@@ -309,6 +309,30 @@ Sinks for stream processing
 3. Azure SQL Database or Azure Synapse Analytics, or Azure Databricks
 4.Power BI
 
+Explore Azure Stream Analytics!!!
+
+Azure Stream Analytics is a service for complex event processing and analysis of streaming data. Stream Analytics is used to:
+Ingest data from an input, such as an Azure event hub, Azure IoT Hub, or Azure Storage blob container.
+Process the data by using a query to select, project, and aggregate data values.
+Write the results to an output, such as Azure Data Lake Gen 2, Azure SQL Database or others.
+
+Once started, a Stream Analytics query will run perpetually, processing new data as it arrives in the input and storing results in the output.
+
+Azure Stream Analytics jobs and clusters!!!!
+
+The easiest way to use Azure Stream Analytics is to create a Stream Analytics job in an Azure subscription, configure its input(s) and output(s), and define the query that the job will use to process the data. The job can incorporate static reference data from multiple data sources.
+
+If your stream process requirements are complex or resource-intensive, you can create a Stream Analysis cluster
+
+Explore Apache Spark on Microsoft Azure!!
+
+Spark Structured Streaming!!!!
+
+You use the Spark Structured Streaming API to read data from a real-time data source, such as a Kafka hub, a file store, or a network port, into a "boundless" dataframe that is continually populated with new data from the stream. 
+
+Delta Lake!!!
+
+Delta Lake is an open-source storage layer that adds support for transactional consistency, schema enforcement, and other common data warehousing features to data lake storage. It also unifies storage for streaming and batch data, and can be used in Spark to define relational tables for both batch and stream processing.
 
 
 
