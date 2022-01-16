@@ -199,6 +199,120 @@ IoT maintenance.
 
 
 
+Module 3: Get Started Building With Power BI 
+============================================================================
+
+Use Power BI!!!
+
+The common flow of activity looks like this:
+Bring data into Power BI Desktop, and create a report.
+Publish to the Power BI service, where you can create new visualizations or build dashboards.
+Share dashboards with others, especially people who are on the go.
+View and interact with shared dashboards and reports in Power BI Mobile apps.
+
+Building blocks of Power BI!!!!
+
+Here are the basic building blocks in Power BI:
+
+Visualizations
+Datasets
+Reports
+Dashboards
+Tiles
+
+Visualizations!!!!
+A visualization (sometimes also referred to as a visual) is a visual representation of data. The goal of a visual is to present data in a way that provides context and insights, both of which would probably be difficult to discern from a raw table of numbers or text.
+
+Datasets!!!
+A dataset is a collection of data that Power BI uses to create its visualizations.
+
+Reports!!!
+In Power BI, a report is a collection of visualizations that appear together on one or more pages. 
+
+Dashboards!!!
+Power BI dashboard is a collection of visuals from a single page that you can share with others. A dashboard must fit on a single page, often called a canvas.
+
+Tiles!!!
+In Power BI, a tile is a single visualization on a dashboard.
+
+Tour and use the Power BI service!!!!
+ let's take a quick look at that first, and learn about an easy and popular way to quickly create visuals in Power BI: apps.
+ 
+ An app is a collection of preset, ready-made visuals and reports that are shared with an entire organization. 
+
+
+Module 4: Explore Fundamentals of Stream Processing
+============================================================================
+Understand batch and stream processing!!!
+
+Batch processing, in which multiple data records are collected and stored before being processed together in a single operation.
+Stream processing, in which a source of data is constantly monitored and processed in real time as new data events occur.
+
+Understand batch processing!!
+
+In batch processing, newly arriving data elements are collected into a group. The whole group is then processed at a future time as a batch
+
+Advantages of batch processing include:
+
+Large volumes of data can be processed at a convenient time.
+It can be scheduled to run at a time when computers or systems might otherwise be idle, such as overnight, or during off-peak hours.
+
+Disadvantages of batch processing include:
+
+The time delay between ingesting the data and getting the results.
+All of a batch job's input data must be ready before a batch can be processed. This means data must be carefully checked. Problems with data, errors, and program crashes that occur during batch jobs bring the whole process to a halt.
+
+Understand stream processing!!!!
+
+In stream processing, each new piece of data is processed when it arrives. Streaming data processing is beneficial in most scenarios where new, dynamic data is generated on a continual basis.
+
+Real world examples of streaming data include:
+A financial institution tracks changes in the stock market in real time
+An online gaming company collects real-time data about player-game interactions, and feeds the data into its gaming platform
+A system that monitors a building for smoke and heat needs to trigger alarms and unlock doors.
+
+Understand differences between batch and streaming data!!!!
+
+Data scope: Batch processing can process all the data in the dataset. Stream processing typically only has access to the most recent data received, or within a rolling time window (the last 30 seconds, for example).
+Data size: Batch processing is suitable for handling large datasets efficiently. Stream processing is intended for individual records or micro batches consisting of few records.
+Performance: The latency for batch processing is typically a few hours. Stream processing typically occurs immediately, with latency in the order of seconds or milliseconds. Latency is the time taken for the data to be received and processed.
+Analysis: You typically use batch processing for performing complex analytics. Stream processing is used for simple response functions, aggregates, or calculations such as rolling averages.
+
+Combine batch and stream processing!!!
+
+Many large-scale analytics solutions include a mix of batch and stream processing, enabling both historical and real-time data analysis.
+
+Explore common elements of stream processing architecture!!!!
+
+A general architecture for stream processing!!
+
+1. An event generates some data.
+2. The generated data is written to a streaming source for processing. 
+3. The event data is processed often by a perpetual query that operates on the event data to select data for specific types of events.
+4. The results of the stream processing operation are written to an output (or sink), which may be a file, a database table, a real-time visual dashboard
+
+Stream processing technologies!!!
+
+The following two technologies are commonly used to process streaming data in Azure:
+Azure Stream Analytics: A platform-as-a-service (PaaS) solution that you can use to define streaming jobs that ingest data from a streaming source, apply a perpetual query, and write the results to an output.
+Spark Structured Streaming: An open-source library that enables you to develop complex streaming solutions on Apache Spark based services, including Azure Synapse Analytics, Azure Databricks, and Azure HDInsight.
+
+Sources for stream processing:
+1. Azure Event Hub
+2.Azure IoT Hub
+3.  Azure Data Lake Store Gen 2
+4. Apache Kafka
+
+Sinks for stream processing
+1. Azure Event Hub
+2.  Azure Data Lake Store Gen 2
+3. Azure SQL Database or Azure Synapse Analytics, or Azure Databricks
+4.Power BI
+
+
+
+
+
 
 
 
